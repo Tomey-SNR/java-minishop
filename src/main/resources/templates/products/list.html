@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | MiniShop</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1><a th:href="@{/}">MiniShop</a></h1>
+        <nav>
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/products}">Products</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <section class="content">
+        <h2>Our Products</h2>
+
+        <a class="button" th:href="@{/products/new}">
+            Add New Product
+        </a>
+
+        <div th:if="${#lists.isEmpty(products)}">
+            <p>No products available yet.</p>
+        </div>
+
+        <table th:unless="${#lists.isEmpty(products)}">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${products}">
+                <td th:text="${product.name}">Product name</td>
+                <td th:text="${product.description}">Description</td>
+                <td th:text="${#numbers.formatDecimal(product.price, 1, 2)} + ' €'">
+                    0.00 €
+                </td>
+                <td th:text="${product.stockQuantity}">0</td>
+                <td>
+                    <a th:href="@{/products/{id}(id=${product.id})}">
+                        Details
+                    </a>
+                    |
+                    <a th:href="@{/products/{id}/edit(id=${product.id})}">
+                        Edit
+                    </a>
+                    |
+                    <form th:action="@{/products/{id}/delete(id=${product.id})}"
+                          method="post"
+                          style="display: inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2026 MiniShop. All rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

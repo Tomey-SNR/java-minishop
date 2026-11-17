@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | MiniShop</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1><a th:href="@{/}">MiniShop</a></h1>
+        <nav>
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/products}">Products</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <section class="content">
+        <h2>Product Details</h2>
+
+        <div class="product-details">
+            <h3 th:text="${product.name}">Product name</h3>
+
+            <p>
+                <strong>Description:</strong>
+                <span th:text="${product.description}">Product description</span>
+            </p>
+
+            <p>
+                <strong>Price:</strong>
+                <span th:text="${#numbers.formatDecimal(product.price, 1, 2)} + ' €'">
+                    0.00 €
+                </span>
+            </p>
+
+            <p>
+                <strong>Available stock:</strong>
+                <span th:text="${product.stockQuantity}">0</span>
+            </p>
+
+            <p>
+                <strong>Created:</strong>
+                <span th:text="${#temporals.format(product.createdAt, 'yyyy-MM-dd HH:mm')}">
+                    Creation date
+                </span>
+            </p>
+        </div>
+
+        <div class="product-actions">
+            <a class="button"
+               th:href="@{/products/{id}/edit(id=${product.id})}">
+                Edit Product
+            </a>
+
+            <a th:href="@{/products}">
+                Back to Products
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2026 MiniShop. All rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
