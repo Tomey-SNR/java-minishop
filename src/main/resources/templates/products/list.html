@@ -59,8 +59,9 @@
                     |
                     <form th:action="@{/products/{id}/delete(id=${product.id})}"
                           method="post"
-                          style="display: inline;">
-                        <button type="submit">Delete</button>
+                          class="inline-form"
+                          onsubmit="return confirm('Are you sure you want to delete this product?');">
+                        <button type="submit" class="delete-button">Delete</button>
                     </form>
                 </td>
             </tr>

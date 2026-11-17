@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -18,37 +19,42 @@ body {
 }
 
 /* Header */
-.site-header {
+header {
+    width: 100%;
     background-color: #ffffff;
     padding: 20px 0;
     border-bottom: 1px solid #e5e5e5;
 }
 
-.site-header .container {
+header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 
-.logo {
+header h1 a {
     color: #2563eb;
     font-size: 26px;
     font-weight: bold;
     text-decoration: none;
 }
 
-.main-navigation {
+nav {
     display: flex;
+    align-items: center;
     gap: 25px;
+    flex-wrap: wrap;
 }
 
-.main-navigation a {
+nav a {
     color: #333;
     text-decoration: none;
     font-weight: 500;
+    white-space: nowrap;
 }
 
-.main-navigation a:hover {
+nav a:hover {
     color: #2563eb;
 }
 
@@ -59,7 +65,7 @@ body {
     text-align: center;
 }
 
-.hero h1 {
+.hero h2 {
     font-size: 42px;
     margin-bottom: 15px;
     color: #1e3a8a;
@@ -70,37 +76,203 @@ body {
     margin-bottom: 30px;
 }
 
-.button {
+/* Buttons */
+.button,
+button {
     display: inline-block;
     background-color: #2563eb;
     color: #ffffff;
     padding: 12px 25px;
+    border: none;
     border-radius: 6px;
     text-decoration: none;
     font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
 }
 
-.button:hover {
+.button:hover,
+button:hover {
     background-color: #1d4ed8;
 }
 
 /* Content sections */
-.products-section,
-.about-section {
-    padding: 70px 0;
-    text-align: center;
+.content {
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
-.products-section h2,
-.about-section h2 {
+.content h2 {
     font-size: 30px;
+    margin-bottom: 20px;
+    color: #1e3a8a;
+}
+
+.content p {
     margin-bottom: 15px;
 }
 
+/* Product list */
+.content table {
+    width: 100%;
+    margin-top: 25px;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.content th,
+.content td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.content th {
+    background-color: #eaf1ff;
+    color: #1e3a8a;
+}
+
+.content tr:hover {
+    background-color: #f1f5f9;
+}
+
+.content td a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.content td a:hover {
+    text-decoration: underline;
+}
+
+.inline-form {
+    display: inline;
+}
+
+/* Product details */
+.product-details {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+    margin-bottom: 25px;
+}
+
+.product-details h3 {
+    font-size: 24px;
+    color: #1e3a8a;
+    margin-bottom: 20px;
+}
+
+.product-details p {
+    margin-bottom: 12px;
+}
+
+.product-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.product-actions a:not(.button) {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+/* Product form */
+.content form:not(.inline-form) {
+    max-width: 600px;
+}
+
+.content form:not(.inline-form) div {
+    margin-bottom: 20px;
+}
+
+.content label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.content input,
+.content textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: inherit;
+}
+
+.content textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.content input:focus,
+.content textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Validation errors */
+.content form p {
+    color: #dc2626;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
 /* Footer */
-.site-footer {
+footer {
     background-color: #1f2937;
     color: #ffffff;
     text-align: center;
     padding: 25px 0;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .hero {
+        padding: 60px 0;
+    }
+
+    .hero h2 {
+        font-size: 32px;
+    }
+
+    .content {
+        overflow-x: auto;
+    }
+
+    .content table {
+        min-width: 650px;
+    }
+
+    .product-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .delete-button {
+        background-color: #dc2626;
+        padding: 8px 14px;
+    }
+
+    .delete-button:hover {
+        background-color: #b91c1c;
+    }
 }
