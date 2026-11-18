@@ -1,0 +1,143 @@
+/* Admin User Management */
+
+main.container {
+    padding-top: 40px;
+    padding-bottom: 60px;
+}
+
+.content {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.content h2 {
+    color: #1e3a8a;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+/* User Count */
+
+.content > p {
+    color: #4b5563;
+    margin-bottom: 25px;
+}
+
+.content > p strong {
+    color: #1e3a8a;
+    font-size: 18px;
+}
+
+/* Table Container */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* User Table */
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+.table-container th,
+.table-container td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.table-container th {
+    background-color: #eaf0ff;
+    color: #1e3a8a;
+    font-weight: bold;
+}
+
+.table-container tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table-container tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* User Roles */
+
+.admin-role,
+.user-role {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.admin-role {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.user-role {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+/* Empty State */
+
+.content > div > p {
+    padding: 20px;
+    color: #6b7280;
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+/* Account Actions */
+
+.delete-button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: #dc2626;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #b91c1c;
+}
+
+.success-message {
+    color: #15803d;
+    margin-bottom: 15px;
+}
+
+.validation-error {
+    color: #dc2626;
+    margin-bottom: 15px;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    main.container {
+        padding-top: 25px;
+        padding-bottom: 40px;
+    }
+
+    .content h2 {
+        font-size: 24px;
+    }
+
+    .table-container th,
+    .table-container td {
+        padding: 12px 10px;
+        font-size: 13px;
+    }
+}

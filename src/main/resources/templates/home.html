@@ -4,16 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MiniShop</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
 
 <header>
     <div class="container">
         <h1><a th:href="@{/}">MiniShop</a></h1>
+
         <nav>
             <a th:href="@{/}">Home</a>
             <a th:href="@{/products}">Products</a>
+
+            <span th:if="${username != null}" class="account-info">
+                Welcome, <strong th:text="${username}">username</strong>
+
+                <span th:if="${isAdmin}" class="role-label">ADMIN</span>
+                <span th:unless="${isAdmin}" class="role-label">USER</span>
+
+                <a th:if="${isAdmin}" th:href="@{/admin/users}">
+                    User Management
+                </a>
+
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            </span>
+
+            <span th:unless="${username != null}">
+                <a th:href="@{/login}">Log in</a>
+                <a th:href="@{/register}">Register</a>
+            </span>
         </nav>
     </div>
 </header>
@@ -21,9 +43,19 @@
 <main>
     <section class="hero">
         <div class="container">
-            <h2>Welcome to MiniShop</h2>
+            <h2 th:if="${username == null}">
+                Welcome to MiniShop
+            </h2>
+
+            <h2 th:if="${username != null}">
+                Welcome back, <span th:text="${username}">username</span>!
+            </h2>
+
             <p>Discover great products at great prices.</p>
-            <a class="button" th:href="@{/products}">Browse Products</a>
+
+            <a class="button" th:href="@{/products}">
+                Browse Products
+            </a>
         </div>
     </section>
 

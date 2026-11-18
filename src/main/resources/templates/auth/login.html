@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | MiniShop</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1><a th:href="@{/}">MiniShop</a></h1>
+
+        <nav>
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/products}">Products</a>
+            <a th:href="@{/register}">Register</a>
+        </nav>
+    </div>
+</header>
+
+<main class="auth-container">
+    <h2>Welcome back</h2>
+    <p>Log in to your MiniShop account.</p>
+
+    <div th:if="${param.registered}" class="auth-message auth-success">
+        Your account has been created successfully. You can now log in.
+    </div>
+
+    <div th:if="${param.error}" class="auth-message auth-error">
+        Invalid username or password.
+    </div>
+
+    <div th:if="${param.logout}" class="auth-message auth-success">
+        You have been logged out successfully.
+    </div>
+
+    <form class="auth-form" th:action="@{/login}" method="post">
+
+        <div>
+            <label for="username">Username</label>
+            <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    autocomplete="username"
+                    required>
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    autocomplete="current-password"
+                    required>
+        </div>
+
+        <button type="submit">Log in</button>
+    </form>
+
+    <p class="auth-link">
+        Don't have an account?
+        <a th:href="@{/register}">Create one</a>
+    </p>
+</main>
+
+</body>
+</html>
