@@ -4,6 +4,7 @@ import com.codecool.minishop.model.Product;
 import com.codecool.minishop.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,5 +49,28 @@ public class ProductService {
         }
 
         productRepository.deleteById(id);
+    }
+
+    public List<Product> searchProducts(String name) {
+        return productRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    public List<Product> filterProductsByPrice(
+            BigDecimal minPrice,
+            BigDecimal maxPrice) {
+
+        return productRepository.findByPriceBetween(minPrice, maxPrice);
+    }
+
+    public List<Product> searchProductsByNameAndPrice(
+            String name,
+            BigDecimal minPrice,
+            BigDecimal maxPrice) {
+
+        return productRepository.findByNameContainingIgnoreCaseAndPriceBetween(
+                name,
+                minPrice,
+                maxPrice
+        );
     }
 }

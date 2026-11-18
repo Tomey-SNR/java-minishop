@@ -8,6 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 @Controller
 @RequestMapping("/products")
 public class ProductController {
@@ -19,8 +22,46 @@ public class ProductController {
     }
 
     @GetMapping
-    public String showProducts(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
+    public String showProducts(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            Model model) {
+
+        List<Product> products;
+
+        if (minPrice != null && maxPrice != null
+                && minPrice.compareTo(maxPrice) > 0) {
+
+            model.addAttribute(
+                    "priceError",
+                    "Minimum price cannot be greater than maximum price."
+            );
+
+            products = productService.getAllProducts();
+
+        } else if (search != null && !search.isBlank()
+                && minPrice != null && maxPrice != null) {
+
+            products = productService.searchProductsByNameAndPrice(
+                    search, minPrice, maxPrice
+            );
+
+        } else if (search != null && !search.isBlank()) {
+            products = productService.searchProducts(search);
+
+        } else if (minPrice != null && maxPrice != null) {
+            products = productService.filterProductsByPrice(minPrice, maxPrice);
+
+        } else {
+            products = productService.getAllProducts();
+        }
+
+        model.addAttribute("products", products);
+        model.addAttribute("search", search);
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("maxPrice", maxPrice);
+
         return "products/list";
     }
 
