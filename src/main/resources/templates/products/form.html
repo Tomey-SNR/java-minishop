@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Form | MiniShop</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/product-form.css}">
 </head>
 <body>
 
 <header>
     <div class="container">
         <h1><a th:href="@{/}">MiniShop</a></h1>
+
         <nav>
             <a th:href="@{/}">Home</a>
             <a th:href="@{/products}">Products</a>
@@ -30,16 +32,25 @@
 
             <div>
                 <label for="name">Product Name</label>
-                <input type="text" id="name" th:field="*{name}">
+                <input type="text"
+                       id="name"
+                       th:field="*{name}"
+                       required>
+
                 <p th:if="${#fields.hasErrors('name')}"
-                   th:errors="*{name}"></p>
+                   th:errors="*{name}"
+                   class="validation-error"></p>
             </div>
 
             <div>
                 <label for="description">Description</label>
-                <textarea id="description" th:field="*{description}"></textarea>
+                <textarea id="description"
+                          th:field="*{description}"
+                          required></textarea>
+
                 <p th:if="${#fields.hasErrors('description')}"
-                   th:errors="*{description}"></p>
+                   th:errors="*{description}"
+                   class="validation-error"></p>
             </div>
 
             <div>
@@ -48,9 +59,12 @@
                        id="price"
                        step="0.01"
                        min="0.01"
-                       th:field="*{price}">
+                       th:field="*{price}"
+                       required>
+
                 <p th:if="${#fields.hasErrors('price')}"
-                   th:errors="*{price}"></p>
+                   th:errors="*{price}"
+                   class="validation-error"></p>
             </div>
 
             <div>
@@ -58,9 +72,12 @@
                 <input type="number"
                        id="stockQuantity"
                        min="0"
-                       th:field="*{stockQuantity}">
+                       th:field="*{stockQuantity}"
+                       required>
+
                 <p th:if="${#fields.hasErrors('stockQuantity')}"
-                   th:errors="*{stockQuantity}"></p>
+                   th:errors="*{stockQuantity}"
+                   class="validation-error"></p>
             </div>
 
             <button type="submit">Save Product</button>

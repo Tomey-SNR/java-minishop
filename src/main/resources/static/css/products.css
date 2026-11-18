@@ -1,0 +1,240 @@
+/* Product Catalog */
+
+main.content {
+    padding-top: 40px;
+    padding-bottom: 60px;
+}
+
+main.content h2 {
+    color: #1e3a8a;
+    font-size: 30px;
+    margin-bottom: 25px;
+}
+
+/* Catalog Filters */
+
+.catalog-actions {
+    margin-bottom: 30px;
+}
+
+.catalog-filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.catalog-filter-form input,
+.catalog-filter-form select {
+    padding: 11px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #1f2937;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.catalog-filter-form input:focus,
+.catalog-filter-form select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.catalog-filter-form button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    background-color: #2563eb;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.catalog-filter-form button:hover {
+    background-color: #1d4ed8;
+}
+
+/* Search */
+
+.search-input-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.search-input-group input {
+    flex: 1;
+    min-width: 0;
+}
+
+.clear-search {
+    color: #2563eb;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.clear-search:hover {
+    text-decoration: underline;
+}
+
+/* Price Filter */
+
+.price-input-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.price-input-group label {
+    font-weight: bold;
+    color: #1f2937;
+}
+
+.price-input-group input {
+    width: 180px;
+}
+
+/* Sorting */
+
+.sort-input-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.sort-input-group select {
+    min-width: 200px;
+    cursor: pointer;
+}
+
+/* Filter Links */
+
+.catalog-filter-form > .clear-search {
+    align-self: flex-start;
+}
+
+/* Validation */
+
+.validation-error {
+    color: #dc2626;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+/* Add Product */
+
+.add-product-button {
+    display: inline-block;
+    margin: 10px 0 20px;
+    padding: 12px 22px;
+    border-radius: 6px;
+    background-color: #2563eb;
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.add-product-button:hover {
+    background-color: #1d4ed8;
+}
+
+/* Product Table */
+
+main.content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+main.content th,
+main.content td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+main.content th {
+    background-color: #eaf0ff;
+    color: #1e3a8a;
+    font-weight: bold;
+}
+
+main.content tbody tr:last-child td {
+    border-bottom: none;
+}
+
+main.content tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* Product Links */
+
+main.content td a {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+main.content td a:hover {
+    text-decoration: underline;
+}
+
+/* Delete Button */
+
+.inline-form {
+    display: inline;
+    margin: 0;
+}
+
+.delete-button {
+    padding: 7px 12px;
+    margin-left: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #dc2626;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #b91c1c;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    main.content {
+        padding-top: 25px;
+        padding-bottom: 40px;
+    }
+
+    .search-input-group,
+    .price-input-group,
+    .sort-input-group {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .search-input-group input,
+    .price-input-group input,
+    .sort-input-group select {
+        width: 100%;
+    }
+
+    main.content table {
+        font-size: 13px;
+    }
+
+    main.content th,
+    main.content td {
+        padding: 10px 8px;
+    }
+}
