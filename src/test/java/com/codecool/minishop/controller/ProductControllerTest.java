@@ -324,4 +324,58 @@ class ProductControllerTest {
                         any(BigDecimal.class)
                 );
     }
+
+    @Test
+    void shouldSortProductsByNameAscending() throws Exception {
+        Product product = createProduct();
+
+        when(productService.getAllProducts()).thenReturn(List.of(product));
+
+        mockMvc.perform(get("/products")
+                        .param("sort", "name-asc"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("products/list"))
+                .andExpect(model().attribute("products", List.of(product)))
+                .andExpect(model().attribute("sort", "name-asc"));
+    }
+
+    @Test
+    void shouldPreserveSearchAndPriceFiltersWhenSorting() throws Exception {
+        BigDecimal minPrice = new BigDecimal("20.00");
+        BigDecimal maxPrice = new BigDecimal("100.00");
+
+        Product product = createProduct();
+
+        when(productService.searchProductsByNameAndPrice(
+                "headset", minPrice, maxPrice
+        )).thenReturn(List.of(product));
+
+        mockMvc.perform(get("/products")
+                        .param("search", "headset")
+                        .param("minPrice", "20.00")
+                        .param("maxPrice", "100.00")
+                        .param("sort", "price-asc"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("products", List.of(product)))
+                .andExpect(model().attribute("search", "headset"))
+                .andExpect(model().attribute("minPrice", minPrice))
+                .andExpect(model().attribute("maxPrice", maxPrice))
+                .andExpect(model().attribute("sort", "price-asc"));
+
+        verify(productService).searchProductsByNameAndPrice(
+                "headset", minPrice, maxPrice
+        );
+    }
+
+    @Test
+    void shouldIgnoreUnknownSortingOption() throws Exception {
+        Product product = createProduct();
+
+        when(productService.getAllProducts()).thenReturn(List.of(product));
+
+        mockMvc.perform(get("/products")
+                        .param("sort", "unknown"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("products", List.of(product)));
+    }
 }

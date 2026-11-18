@@ -9,6 +9,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -26,6 +28,7 @@ public class ProductController {
             @RequestParam(required = false) String search,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false) String sort,
             Model model) {
 
         List<Product> products;
@@ -57,10 +60,23 @@ public class ProductController {
             products = productService.getAllProducts();
         }
 
+        if (sort != null) {
+            products = new ArrayList<>(products);
+
+            products.sort(switch (sort) {
+                case "name-asc" -> Comparator.comparing(Product::getName);
+                case "name-desc" -> Comparator.comparing(Product::getName).reversed();
+                case "price-asc" -> Comparator.comparing(Product::getPrice);
+                case "price-desc" -> Comparator.comparing(Product::getPrice).reversed();
+                default -> Comparator.comparing(Product::getId);
+            });
+        }
+
         model.addAttribute("products", products);
         model.addAttribute("search", search);
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("sort", sort);
 
         return "products/list";
     }

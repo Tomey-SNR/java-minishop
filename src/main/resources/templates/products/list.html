@@ -74,6 +74,28 @@
                 </a>
             </div>
 
+            <div class="sort-input-group">
+                <label for="sort">Sort products:</label>
+
+                <select id="sort" name="sort">
+                    <option value="">Default order</option>
+                    <option value="name-asc" th:selected="${sort == 'name-asc'}">
+                        Name (A-Z)
+                    </option>
+                    <option value="name-desc" th:selected="${sort == 'name-desc'}">
+                        Name (Z-A)
+                    </option>
+                    <option value="price-asc" th:selected="${sort == 'price-asc'}">
+                        Price (Lowest first)
+                    </option>
+                    <option value="price-desc" th:selected="${sort == 'price-desc'}">
+                        Price (Highest first)
+                    </option>
+                </select>
+
+                <button type="submit">Sort</button>
+            </div>
+
             <a th:href="@{/products}" class="clear-search">
                 Clear all filters
             </a>
