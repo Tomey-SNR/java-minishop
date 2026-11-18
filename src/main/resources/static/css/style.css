@@ -1,4 +1,4 @@
-
+/* General styles */
 * {
     margin: 0;
     padding: 0;
@@ -112,6 +112,96 @@ button:hover {
     margin-bottom: 15px;
 }
 
+/* Product catalog filters */
+.catalog-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.content form.catalog-filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 850px;
+    margin: 0;
+}
+
+/* Search form */
+.search-input-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.search-input-group input {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+}
+
+.search-input-group button {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.search-input-group .clear-search {
+    margin-left: 5px;
+    white-space: nowrap;
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.search-input-group .clear-search:hover {
+    text-decoration: underline;
+}
+
+/* Price filter */
+.price-input-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.content .price-input-group label {
+    display: block;
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+.price-input-group input {
+    flex: 1;
+    min-width: 100px;
+}
+
+.price-input-group button {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+/* Accessibility */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.add-product-button {
+    margin-top: 0;
+}
+
 /* Product list */
 .content table {
     width: 100%;
@@ -152,6 +242,16 @@ button:hover {
     display: inline;
 }
 
+/* Delete button */
+.delete-button {
+    background-color: #dc2626;
+    padding: 8px 14px;
+}
+
+.delete-button:hover {
+    background-color: #b91c1c;
+}
+
 /* Product details */
 .product-details {
     background-color: #ffffff;
@@ -183,15 +283,15 @@ button:hover {
 }
 
 /* Product form */
-.content form:not(.inline-form) {
+.content form:not(.inline-form, .catalog-filter-form) {
     max-width: 600px;
 }
 
-.content form:not(.inline-form) div {
+.content form:not(.inline-form, .catalog-filter-form) div {
     margin-bottom: 20px;
 }
 
-.content label {
+.content label:not(.visually-hidden) {
     display: block;
     font-weight: bold;
     margin-bottom: 8px;
@@ -224,6 +324,13 @@ button:hover {
     color: #dc2626;
     font-size: 14px;
     margin-top: 5px;
+}
+
+.validation-error {
+    color: #dc2626;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
 }
 
 /* Footer */
@@ -266,13 +373,24 @@ footer p {
         flex-direction: column;
         align-items: flex-start;
     }
+}
 
-    .delete-button {
-        background-color: #dc2626;
-        padding: 8px 14px;
+@media (max-width: 600px) {
+    .search-input-group {
+        flex-wrap: wrap;
     }
 
-    .delete-button:hover {
-        background-color: #b91c1c;
+    .search-input-group input {
+        flex-basis: 100%;
+    }
+
+    .price-input-group {
+        align-items: stretch;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .price-input-group input {
+        width: 100%;
     }
 }

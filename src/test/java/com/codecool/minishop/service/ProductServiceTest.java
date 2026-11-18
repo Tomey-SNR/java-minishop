@@ -137,4 +137,133 @@ class ProductServiceTest {
                 25
         );
     }
+
+    @Test
+    void shouldSearchProductsByName() {
+        List<Product> products = List.of(
+                createProduct(),
+                new Product(
+                        "Gaming Headset",
+                        "Wireless gaming headset",
+                        new BigDecimal("99.99"),
+                        10
+                )
+        );
+
+        when(productRepository.findByNameContainingIgnoreCase("head"))
+                .thenReturn(products);
+
+        List<Product> result = productService.searchProducts("head");
+
+        assertEquals(2, result.size());
+        verify(productRepository).findByNameContainingIgnoreCase("head");
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenSearchHasNoMatches() {
+        when(productRepository.findByNameContainingIgnoreCase("phone"))
+                .thenReturn(List.of());
+
+        List<Product> result = productService.searchProducts("phone");
+
+        assertTrue(result.isEmpty());
+        verify(productRepository).findByNameContainingIgnoreCase("phone");
+    }
+
+    @Test
+    void shouldFilterProductsByPriceRange() {
+        List<Product> products = List.of(
+                createProduct(),
+                new Product(
+                        "Keyboard",
+                        "Mechanical keyboard",
+                        new BigDecimal("59.99"),
+                        15
+                )
+        );
+
+        when(productRepository.findByPriceBetween(
+                new BigDecimal("50.00"),
+                new BigDecimal("100.00")
+        )).thenReturn(products);
+
+        List<Product> result = productService.filterProductsByPrice(
+                new BigDecimal("50.00"),
+                new BigDecimal("100.00")
+        );
+
+        assertEquals(2, result.size());
+
+        verify(productRepository).findByPriceBetween(
+                new BigDecimal("50.00"),
+                new BigDecimal("100.00")
+        );
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenNoProductsMatchPriceRange() {
+        when(productRepository.findByPriceBetween(
+                new BigDecimal("200.00"),
+                new BigDecimal("500.00")
+        )).thenReturn(List.of());
+
+        List<Product> result = productService.filterProductsByPrice(
+                new BigDecimal("200.00"),
+                new BigDecimal("500.00")
+        );
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldPassCorrectPriceRangeToRepository() {
+        BigDecimal minPrice = new BigDecimal("25.00");
+        BigDecimal maxPrice = new BigDecimal("75.00");
+
+        when(productRepository.findByPriceBetween(minPrice, maxPrice))
+                .thenReturn(List.of(createProduct()));
+
+        productService.filterProductsByPrice(minPrice, maxPrice);
+
+        verify(productRepository).findByPriceBetween(minPrice, maxPrice);
+    }
+
+    @Test
+    void shouldSearchProductsByNameAndPrice() {
+        String name = "headset";
+        BigDecimal minPrice = new BigDecimal("40.00");
+        BigDecimal maxPrice = new BigDecimal("100.00");
+
+        List<Product> products = List.of(createProduct());
+
+        when(productRepository.findByNameContainingIgnoreCaseAndPriceBetween(
+                name, minPrice, maxPrice
+        )).thenReturn(products);
+
+        List<Product> result = productService.searchProductsByNameAndPrice(
+                name, minPrice, maxPrice
+        );
+
+        assertEquals(products, result);
+        verify(productRepository).findByNameContainingIgnoreCaseAndPriceBetween(
+                name, minPrice, maxPrice
+        );
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenCombinedSearchHasNoResults() {
+        String name = "headset";
+        BigDecimal minPrice = new BigDecimal("500.00");
+        BigDecimal maxPrice = new BigDecimal("1000.00");
+
+        when(productRepository.findByNameContainingIgnoreCaseAndPriceBetween(
+                name, minPrice, maxPrice
+        )).thenReturn(List.of());
+
+        List<Product> result = productService.searchProductsByNameAndPrice(
+                name, minPrice, maxPrice
+        );
+
+        assertTrue(result.isEmpty());
+    }
 }
