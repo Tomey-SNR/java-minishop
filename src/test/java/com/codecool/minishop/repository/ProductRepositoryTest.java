@@ -241,4 +241,84 @@ class ProductRepositoryTest {
         assertEquals(1, results.size());
         assertEquals("Gaming Headset", results.get(0).getName());
     }
+    
+    @Test
+    void shouldFindAllProductsOrderedByNameAscending() {
+        productRepository.saveAll(List.of(
+                createProduct("Wireless Mouse", "Mouse", "25.00", 10),
+                createProduct("Gaming Keyboard", "Keyboard", "75.00", 5),
+                createProduct("Headset", "Headphones", "50.00", 8)
+        ));
+
+        List<Product> products = productRepository.findAllByOrderByNameAsc();
+
+        assertEquals("Gaming Keyboard", products.get(0).getName());
+        assertEquals("Headset", products.get(1).getName());
+        assertEquals("Wireless Mouse", products.get(2).getName());
+    }
+
+    @Test
+    void shouldFindAllProductsOrderedByNameDescending() {
+        productRepository.saveAll(List.of(
+                createProduct("Wireless Mouse", "Mouse", "25.00", 10),
+                createProduct("Gaming Keyboard", "Keyboard", "75.00", 5),
+                createProduct("Headset", "Headphones", "50.00", 8)
+        ));
+
+        List<Product> products = productRepository.findAllByOrderByNameDesc();
+
+        assertEquals("Wireless Mouse", products.get(0).getName());
+        assertEquals("Headset", products.get(1).getName());
+        assertEquals("Gaming Keyboard", products.get(2).getName());
+    }
+
+    @Test
+    void shouldFindAllProductsOrderedByPriceAscending() {
+        productRepository.saveAll(List.of(
+                createProduct("Wireless Mouse", "Mouse", "25.00", 10),
+                createProduct("Gaming Keyboard", "Keyboard", "75.00", 5),
+                createProduct("Headset", "Headphones", "50.00", 8)
+        ));
+
+        List<Product> products = productRepository.findAllByOrderByPriceAsc();
+
+        assertEquals(0, new BigDecimal("25.00")
+                .compareTo(products.get(0).getPrice()));
+        assertEquals(0, new BigDecimal("50.00")
+                .compareTo(products.get(1).getPrice()));
+        assertEquals(0, new BigDecimal("75.00")
+                .compareTo(products.get(2).getPrice()));
+    }
+
+    @Test
+    void shouldFindAllProductsOrderedByPriceDescending() {
+        productRepository.saveAll(List.of(
+                createProduct("Wireless Mouse", "Mouse", "25.00", 10),
+                createProduct("Gaming Keyboard", "Keyboard", "75.00", 5),
+                createProduct("Headset", "Headphones", "50.00", 8)
+        ));
+
+        List<Product> products = productRepository.findAllByOrderByPriceDesc();
+
+        assertEquals(0, new BigDecimal("75.00")
+                .compareTo(products.get(0).getPrice()));
+        assertEquals(0, new BigDecimal("50.00")
+                .compareTo(products.get(1).getPrice()));
+        assertEquals(0, new BigDecimal("25.00")
+                .compareTo(products.get(2).getPrice()));
+    }
+
+    private Product createProduct(
+            String name,
+            String description,
+            String price,
+            int stockQuantity) {
+
+        return new Product(
+                name,
+                description,
+                new BigDecimal(price),
+                stockQuantity
+        );
+    }
 }

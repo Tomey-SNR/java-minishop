@@ -185,6 +185,32 @@ button:hover {
     white-space: nowrap;
 }
 
+/* Product sorting */
+.sort-input-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.content .sort-input-group label {
+    margin-bottom: 0;
+}
+
+.sort-input-group select {
+    width: auto;
+    min-width: 200px;
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #ffffff;
+}
+
+.sort-input-group button {
+    white-space: nowrap;
+}
+
 /* Accessibility */
 .visually-hidden {
     position: absolute;

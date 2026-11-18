@@ -73,4 +73,20 @@ public class ProductService {
                 maxPrice
         );
     }
+
+    public List<Product> sortProductsByNameAscending() {
+        return productRepository.findAllByOrderByNameAsc();
+    }
+
+    public List<Product> sortProductsByNameDescending() {
+        return productRepository.findAllByOrderByNameDesc();
+    }
+
+    public List<Product> sortProductsByPriceAscending() {
+        return productRepository.findAllByOrderByPriceAsc();
+    }
+
+    public List<Product> sortProductsByPriceDescending() {
+        return productRepository.findAllByOrderByPriceDesc();
+    }
 }

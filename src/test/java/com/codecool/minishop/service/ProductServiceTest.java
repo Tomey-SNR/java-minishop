@@ -266,4 +266,52 @@ class ProductServiceTest {
 
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    void shouldSortProductsByNameAscending() {
+        List<Product> products = List.of(createProduct());
+
+        when(productRepository.findAllByOrderByNameAsc()).thenReturn(products);
+
+        List<Product> result = productService.sortProductsByNameAscending();
+
+        assertEquals(products, result);
+        verify(productRepository).findAllByOrderByNameAsc();
+    }
+
+    @Test
+    void shouldSortProductsByNameDescending() {
+        List<Product> products = List.of(createProduct());
+
+        when(productRepository.findAllByOrderByNameDesc()).thenReturn(products);
+
+        List<Product> result = productService.sortProductsByNameDescending();
+
+        assertEquals(products, result);
+        verify(productRepository).findAllByOrderByNameDesc();
+    }
+
+    @Test
+    void shouldSortProductsByPriceAscending() {
+        List<Product> products = List.of(createProduct());
+
+        when(productRepository.findAllByOrderByPriceAsc()).thenReturn(products);
+
+        List<Product> result = productService.sortProductsByPriceAscending();
+
+        assertEquals(products, result);
+        verify(productRepository).findAllByOrderByPriceAsc();
+    }
+
+    @Test
+    void shouldSortProductsByPriceDescending() {
+        List<Product> products = List.of(createProduct());
+
+        when(productRepository.findAllByOrderByPriceDesc()).thenReturn(products);
+
+        List<Product> result = productService.sortProductsByPriceDescending();
+
+        assertEquals(products, result);
+        verify(productRepository).findAllByOrderByPriceDesc();
+    }
 }

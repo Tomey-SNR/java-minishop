@@ -18,4 +18,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             BigDecimal maxPrice
     );
 
+    List<Product> findAllByOrderByNameAsc();
+
+    List<Product> findAllByOrderByNameDesc();
+
+    List<Product> findAllByOrderByPriceAsc();
+
+    List<Product> findAllByOrderByPriceDesc();
 }
