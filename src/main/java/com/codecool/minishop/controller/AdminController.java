@@ -1,6 +1,8 @@
 package com.codecool.minishop.controller;
 
 import com.codecool.minishop.dto.UserResponse;
+import com.codecool.minishop.model.Order;
+import com.codecool.minishop.service.OrderService;
 import com.codecool.minishop.service.ProductResetService;
 import com.codecool.minishop.service.UserService;
 import org.springframework.security.core.Authentication;
@@ -20,12 +22,15 @@ public class AdminController {
 
     private final UserService userService;
     private final ProductResetService productResetService;
+    private final OrderService orderService;
 
     public AdminController(
             UserService userService,
-            ProductResetService productResetService) {
+            ProductResetService productResetService,
+            OrderService orderService) {
         this.userService = userService;
         this.productResetService = productResetService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/users")
@@ -35,6 +40,15 @@ public class AdminController {
         model.addAttribute("users", users);
 
         return "admin/users";
+    }
+
+    @GetMapping("/orders")
+    public String getAllOrders(Model model) {
+        List<Order> orders = orderService.getAllOrders();
+
+        model.addAttribute("orders", orders);
+
+        return "admin/orders";
     }
 
     @PostMapping("/users/{id}/delete")

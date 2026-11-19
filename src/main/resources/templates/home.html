@@ -17,25 +17,34 @@
             <a th:href="@{/}">Home</a>
             <a th:href="@{/products}">Products</a>
 
+            <a th:if="${username != null and !isAdmin}"
+               th:href="@{/orders}">
+                My Orders
+            </a>
+
+            <a th:if="${isAdmin}" th:href="@{/admin/users}">
+                User Management
+            </a>
+
+            <a th:if="${isAdmin}" th:href="@{/admin/orders}">
+                Order Management
+            </a>
+
             <span th:if="${username != null}" class="account-info">
-                Welcome, <strong th:text="${username}">username</strong>
+        Welcome, <strong th:text="${username}">username</strong>
 
-                <span th:if="${isAdmin}" class="role-label">ADMIN</span>
-                <span th:unless="${isAdmin}" class="role-label">USER</span>
+        <span th:if="${isAdmin}" class="role-label">ADMIN</span>
+        <span th:unless="${isAdmin}" class="role-label">USER</span>
 
-                <a th:if="${isAdmin}" th:href="@{/admin/users}">
-                    User Management
-                </a>
-
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit">Logout</button>
-                </form>
-            </span>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </span>
 
             <span th:unless="${username != null}">
-                <a th:href="@{/login}">Log in</a>
-                <a th:href="@{/register}">Register</a>
-            </span>
+        <a th:href="@{/login}">Log in</a>
+        <a th:href="@{/register}">Register</a>
+    </span>
         </nav>
     </div>
 </header>

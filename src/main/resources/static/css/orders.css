@@ -1,0 +1,128 @@
+/* Main orders page */
+.orders-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.orders-container h1 {
+    margin-bottom: 30px;
+}
+
+/* Orders list */
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Individual order card */
+.order-card {
+    padding: 24px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #fff;
+}
+
+/* Order information */
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.order-header h2 {
+    margin: 0 0 8px;
+}
+
+.order-header p {
+    color: #666;
+    margin: 0;
+}
+
+/* Order status label */
+.order-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #e5f5e9;
+    color: #18743a;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* Products inside an order */
+.order-items {
+    padding: 12px 0;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.order-item h3 {
+    margin: 0 0 8px;
+}
+
+.order-item p {
+    margin: 4px 0;
+    color: #666;
+}
+
+/* Order total */
+.order-total {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 16px;
+    font-size: 18px;
+}
+
+/* Empty order history */
+.empty-orders {
+    text-align: center;
+    padding: 50px 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+/* Navigation buttons and links */
+.primary-button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 20px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 25px;
+    color: #2563eb;
+    text-decoration: none;
+}
+
+/* Success and error messages */
+.success-message,
+.error-message {
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    border-radius: 6px;
+}
+
+.success-message {
+    background: #e5f5e9;
+    color: #18743a;
+}
+
+.error-message {
+    background: #fde8e8;
+    color: #b42318;
+}

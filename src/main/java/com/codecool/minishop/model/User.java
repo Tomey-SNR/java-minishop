@@ -5,6 +5,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -31,6 +34,9 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Order> orders = new ArrayList<>();
+
     public User() {
     }
 
@@ -39,6 +45,11 @@ public class User {
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public void addOrder(Order order) {
+        orders.add(order);
+        order.setUser(this);
     }
 
     public Long getId() {
@@ -75,5 +86,9 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
     }
 }

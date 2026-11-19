@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,12 +38,9 @@ class UserServiceTest {
                 Role.USER
         );
 
-        when(userRepository.existsByUsername("tomey"))
-                .thenReturn(false);
-        when(userRepository.existsByEmail("tomey@example.com"))
-                .thenReturn(false);
-        when(userRepository.save(any(User.class)))
-                .thenReturn(savedUser);
+        when(userRepository.existsByUsername("tomey")).thenReturn(false);
+        when(userRepository.existsByEmail("tomey@example.com")).thenReturn(false);
+        when(userRepository.save(any(User.class))).thenReturn(savedUser);
 
         User result = userService.registerUser(
                 "tomey",
@@ -56,17 +53,14 @@ class UserServiceTest {
         assertEquals(Role.USER, result.getRole());
 
         assertNotEquals("Password123", result.getPassword());
-        assertTrue(passwordEncoder.matches(
-                "Password123", result.getPassword()
-        ));
+        assertTrue(passwordEncoder.matches("Password123", result.getPassword()));
 
         verify(userRepository).save(any(User.class));
     }
 
     @Test
     void shouldRejectDuplicateUsername() {
-        when(userRepository.existsByUsername("tomey"))
-                .thenReturn(true);
+        when(userRepository.existsByUsername("tomey")).thenReturn(true);
 
         assertThrows(
                 IllegalArgumentException.class,
@@ -82,10 +76,8 @@ class UserServiceTest {
 
     @Test
     void shouldRejectDuplicateEmail() {
-        when(userRepository.existsByUsername("newuser"))
-                .thenReturn(false);
-        when(userRepository.existsByEmail("tomey@example.com"))
-                .thenReturn(true);
+        when(userRepository.existsByUsername("newuser")).thenReturn(false);
+        when(userRepository.existsByEmail("tomey@example.com")).thenReturn(true);
 
         assertThrows(
                 IllegalArgumentException.class,
@@ -115,8 +107,7 @@ class UserServiceTest {
                 Role.USER
         );
 
-        when(userRepository.findAll())
-                .thenReturn(List.of(admin, regularUser));
+        when(userRepository.findAll()).thenReturn(List.of(admin, regularUser));
 
         List<UserResponse> result = userService.getAllUserResponses();
 
@@ -128,5 +119,85 @@ class UserServiceTest {
 
         assertFalse(result.toString().contains("admin-hashed-password"));
         assertFalse(result.toString().contains("user-hashed-password"));
+    }
+
+    @Test
+    void shouldDeleteUserSuccessfully() {
+        User user = new User(
+                "tomey",
+                "tomey@example.com",
+                "hashed-password",
+                Role.USER
+        );
+
+        when(userRepository.findById(2L)).thenReturn(Optional.of(user));
+
+        userService.deleteUser(2L, "admin");
+
+        verify(userRepository).delete(user);
+    }
+
+    @Test
+    void shouldPreventDeletingCurrentUser() {
+        User user = new User(
+                "admin",
+                "admin@minishop.local",
+                "hashed-password",
+                Role.ADMIN
+        );
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.deleteUser(1L, "admin")
+        );
+
+        verify(userRepository, never()).delete(any(User.class));
+    }
+
+    @Test
+    void shouldPreventDeletingLastAdministrator() {
+        User admin = new User(
+                "other-admin",
+                "other-admin@minishop.local",
+                "hashed-password",
+                Role.ADMIN
+        );
+
+        when(userRepository.findById(2L)).thenReturn(Optional.of(admin));
+        when(userRepository.findAllByRole(Role.ADMIN)).thenReturn(List.of(admin));
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.deleteUser(2L, "admin")
+        );
+
+        verify(userRepository, never()).delete(any(User.class));
+    }
+
+    @Test
+    void shouldAllowDeletingAdministratorWhenAnotherAdminExists() {
+        User adminToDelete = new User(
+                "other-admin",
+                "other-admin@minishop.local",
+                "hashed-password",
+                Role.ADMIN
+        );
+
+        User remainingAdmin = new User(
+                "admin",
+                "admin@minishop.local",
+                "another-hashed-password",
+                Role.ADMIN
+        );
+
+        when(userRepository.findById(2L)).thenReturn(Optional.of(adminToDelete));
+        when(userRepository.findAllByRole(Role.ADMIN))
+                .thenReturn(List.of(adminToDelete, remainingAdmin));
+
+        userService.deleteUser(2L, "admin");
+
+        verify(userRepository).delete(adminToDelete);
     }
 }

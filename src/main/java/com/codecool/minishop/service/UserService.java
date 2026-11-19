@@ -16,8 +16,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder) {
+    public UserService(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -69,10 +70,8 @@ public class UserService {
         }
 
         if (user.getRole() == Role.ADMIN) {
-            long adminCount = userRepository.findAll()
-                    .stream()
-                    .filter(existingUser -> existingUser.getRole() == Role.ADMIN)
-                    .count();
+            long adminCount =
+                    userRepository.findAllByRole(Role.ADMIN).size();
 
             if (adminCount <= 1) {
                 throw new IllegalArgumentException(
