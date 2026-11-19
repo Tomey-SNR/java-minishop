@@ -1,6 +1,7 @@
 package com.codecool.minishop.controller;
 
 import com.codecool.minishop.dto.UserResponse;
+import com.codecool.minishop.service.ProductResetService;
 import com.codecool.minishop.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -18,9 +19,13 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
+    private final ProductResetService productResetService;
 
-    public AdminController(UserService userService) {
+    public AdminController(
+            UserService userService,
+            ProductResetService productResetService) {
         this.userService = userService;
+        this.productResetService = productResetService;
     }
 
     @GetMapping("/users")
@@ -50,6 +55,28 @@ public class AdminController {
             redirectAttributes.addFlashAttribute(
                     "errorMessage",
                     exception.getMessage()
+            );
+        }
+
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("/products/reset")
+    public String resetProductCatalog(
+            RedirectAttributes redirectAttributes) {
+
+        try {
+            productResetService.resetProductCatalog();
+
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Product catalog has been reset successfully."
+            );
+
+        } catch (RuntimeException exception) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Failed to reset the product catalog."
             );
         }
 
