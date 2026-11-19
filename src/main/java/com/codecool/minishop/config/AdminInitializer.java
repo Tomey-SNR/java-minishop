@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
+import java.util.Optional;
+
 @Configuration
 public class AdminInitializer {
 
@@ -21,39 +24,99 @@ public class AdminInitializer {
             @Value("${ADMIN_PASSWORD}") String password) {
 
         return args -> {
-            var existingUser = userRepository.findByUsername(username);
+            List<User> admins = userRepository.findAllByRole(Role.ADMIN);
 
-            if (existingUser.isPresent()) {
-                User admin = existingUser.get();
-
-                if (admin.getRole() != Role.ADMIN) {
-                    throw new IllegalStateException(
-                            "Configured admin username belongs to a regular user."
-                    );
-                }
-
-                if (!passwordEncoder.matches(password, admin.getPassword())) {
-                    admin.setPassword(passwordEncoder.encode(password));
-                    userRepository.save(admin);
-                }
-
-                return;
-            }
-
-            if (userRepository.existsByEmail(email)) {
+            if (admins.size() > 1) {
                 throw new IllegalStateException(
-                        "Configured admin email is already registered."
+                        "Multiple admin accounts found. MiniShop expects exactly one admin account."
                 );
             }
 
-            User admin = new User(
-                    username,
-                    email,
-                    passwordEncoder.encode(password),
-                    Role.ADMIN
+            if (admins.isEmpty()) {
+                validateUsernameAndEmail(
+                        userRepository, username, email, null
+                );
+
+                User admin = new User(
+                        username,
+                        email,
+                        passwordEncoder.encode(password),
+                        Role.ADMIN
+                );
+
+                userRepository.save(admin);
+                return;
+            }
+
+            User admin = admins.getFirst();
+
+            validateUsernameAndEmail(
+                    userRepository, username, email, admin
             );
 
-            userRepository.save(admin);
+            boolean changed = false;
+
+            if (!admin.getUsername().equals(username)) {
+                admin.setUsername(username);
+                changed = true;
+            }
+
+            if (!admin.getEmail().equals(email)) {
+                admin.setEmail(email);
+                changed = true;
+            }
+
+            if (!passwordEncoder.matches(password, admin.getPassword())) {
+                admin.setPassword(passwordEncoder.encode(password));
+                changed = true;
+            }
+
+            if (changed) {
+                userRepository.save(admin);
+            }
         };
+    }
+
+    private void validateUsernameAndEmail(
+            UserRepository userRepository,
+            String username,
+            String email,
+            User currentAdmin) {
+
+        Optional<User> existingUsername =
+                userRepository.findByUsername(username);
+
+        if (existingUsername.isPresent()
+                && isDifferentAccount(existingUsername.get(), currentAdmin)) {
+            throw new IllegalStateException(
+                    "Configured admin username is already used by another account."
+            );
+        }
+
+        Optional<User> existingEmail =
+                userRepository.findByEmail(email);
+
+        if (existingEmail.isPresent()
+                && isDifferentAccount(existingEmail.get(), currentAdmin)) {
+            throw new IllegalStateException(
+                    "Configured admin email is already used by another account."
+            );
+        }
+    }
+
+    private boolean isDifferentAccount(User user, User currentAdmin) {
+        if (currentAdmin == null) {
+            return true;
+        }
+
+        if (user == currentAdmin) {
+            return false;
+        }
+
+        if (user.getId() != null && currentAdmin.getId() != null) {
+            return !user.getId().equals(currentAdmin.getId());
+        }
+
+        return true;
     }
 }
