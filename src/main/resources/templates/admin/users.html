@@ -17,6 +17,12 @@
             <a th:href="@{/}">Home</a>
             <a th:href="@{/products}">Products</a>
             <a th:href="@{/admin/users}">User Management</a>
+            <a th:href="@{/admin/orders}">Order Management</a>
+
+            <span class="account-info">
+        Welcome, <strong th:text="${username}">admin</strong>
+        <span class="role-label">ADMIN</span>
+    </span>
 
             <form th:action="@{/logout}" method="post">
                 <button type="submit">Logout</button>

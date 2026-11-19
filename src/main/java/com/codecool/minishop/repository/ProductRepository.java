@@ -1,10 +1,15 @@
 package com.codecool.minishop.repository;
 
 import com.codecool.minishop.model.Product;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.math.BigDecimal;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
@@ -25,4 +30,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByOrderByPriceAsc();
 
     List<Product> findAllByOrderByPriceDesc();
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT p FROM Product p WHERE p.id = :productId")
+    Optional<Product> findByIdForUpdate(@Param("productId") Long productId);
 }

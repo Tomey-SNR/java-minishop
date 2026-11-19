@@ -1,10 +1,12 @@
 package com.codecool.minishop.service;
 
 import com.codecool.minishop.model.Product;
+import com.codecool.minishop.repository.OrderItemRepository;
 import com.codecool.minishop.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,18 +17,31 @@ import static org.mockito.Mockito.*;
 class ProductResetServiceTest {
 
     private ProductRepository productRepository;
+    private OrderItemRepository orderItemRepository;
     private DefaultProductCatalog defaultProductCatalog;
     private ProductResetService productResetService;
 
     @BeforeEach
     void setUp() {
         productRepository = mock(ProductRepository.class);
+        orderItemRepository = mock(OrderItemRepository.class);
         defaultProductCatalog = new DefaultProductCatalog();
 
         productResetService = new ProductResetService(
                 productRepository,
+                orderItemRepository,
                 defaultProductCatalog
         );
+    }
+
+    @Test
+    void shouldDetachOrderItemsBeforeDeletingProducts() {
+        productResetService.resetProductCatalog();
+
+        InOrder inOrder = inOrder(orderItemRepository, productRepository);
+
+        inOrder.verify(orderItemRepository).detachProductsFromOrderItems();
+        inOrder.verify(productRepository).deleteAllInBatch();
     }
 
     @Test
