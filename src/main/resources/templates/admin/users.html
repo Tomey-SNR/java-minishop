@@ -28,7 +28,7 @@
 <main class="container">
     <section class="content">
 
-        <h2>Registered Users</h2>
+        <h2>Admin Dashboard</h2>
 
         <p th:if="${successMessage}"
            th:text="${successMessage}"
@@ -37,6 +37,26 @@
         <p th:if="${errorMessage}"
            th:text="${errorMessage}"
            class="validation-error"></p>
+
+        <section class="database-tools">
+            <h3>Database Management</h3>
+
+            <p>
+                Reset the product catalog to its predefined default products.
+                All existing products will be replaced.
+            </p>
+
+            <form th:action="@{/admin/products/reset}"
+                  method="post"
+                  onsubmit="return confirm('WARNING: This will delete ALL existing products and replace them with the default product catalog. Are you sure you want to continue?');">
+
+                <button type="submit" class="reset-button">
+                    Reset Product Catalog
+                </button>
+            </form>
+        </section>
+
+        <h2>Registered Users</h2>
 
         <p>
             Total registered accounts:

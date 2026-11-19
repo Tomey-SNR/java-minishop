@@ -123,6 +123,31 @@ main.container {
     margin-bottom: 15px;
 }
 
+.database-tools {
+    margin: 25px 0 35px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.database-tools h3 {
+    margin-top: 0;
+}
+
+.reset-button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    background-color: #c0392b;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.reset-button:hover {
+    background-color: #a93226;
+}
+
 /* Responsive */
 
 @media (max-width: 768px) {
